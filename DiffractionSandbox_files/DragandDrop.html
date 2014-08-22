@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <title>Chernoff Smileys</title>
+   <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?2.5.0"></script>
+   <script type="text/javascript" src="http://mbostock.github.com/d3/d3.layout.js?2.5.0"></script>
+   <style type="text/css">
+
+   </style>
+ </head>
+ <body>
+
+   <script type="text/javascript">
+
+
+    var drag = d3.behavior.drag()
+        .on("drag", function(d,i) {
+            d.x += d3.event.dx
+            d.y += d3.event.dy
+            d3.select(this).attr("transform", function(d,i){
+                return "translate(" + [ d.x,d.y ] + ")"
+            })
+        });
+
+
+    function face_factory(classname, data, x, y, r)
+    { 
+       
+
+        var face = d3.select("#charts")
+            .append("svg:g")
+                .data([ {"x":x, "y":y} ])
+                .attr("class", classname)
+                .attr("transform", "translate(" + x + "," + y + ")")
+                .call(drag);
+
+
+        console.log("make head");
+        var head_color = d3.scale.linear()
+            .domain([0, 1])
+            .interpolate(d3.interpolateRgb)
+            .range(["#0000ff", "#0000ff"]);
+
+        var head = face.append("svg:circle")
+                .attr("class", "head")
+                .attr("fill", function(d){ return head_color(data.x); })
+                .attr("fill-opacity", .2)
+                .attr("stroke", "#000")
+                .attr("stroke-width", 1)
+                .attr("r", r);
+
+        var text = face.append("svg:text")
+            .text("Rec")
+            .attr("y", ".45em")
+            .attr("transform", "translate(" + [0, 0] + ")")
+            .attr("text-anchor", "middle")
+            .attr("font-weight", 400)
+            .attr("font-family", "arial ")
+            .attr("fill", "#000")
+            .attr("stroke", "none")
+            .attr("pointer-events", "none") 
+
+    }
+
+
+    var w = 450;
+    var h = 450;
+
+    //setup svg canvas
+    d3.select("body")
+        .append("svg:svg")
+            .attr("width", w)
+            .attr("height", h)
+            .attr("id", "charts")
+            //.on("click", clickypie)
+            .append("svg:rect")
+                .attr("width", "100%")
+                .attr("height", "100%")
+                .attr("stroke", "#000")
+                .attr("stroke-width", 1)
+                .attr("fill", "none")
+
+    //r = 100;
+    //for(i = 0; i < 2; i++)
+    //{
+        //var r = 20 + Math.random() * 50;
+		var r=20;
+        var data = { "x":Math.random(), "y":Math.random(), "z":Math.random(), "w":Math.random() };
+        x = Math.random() * w
+        y = Math.random() * h
+        face_factory("face", data, x, y, r);
+		var data = { "x":Math.random(), "y":Math.random(), "z":Math.random(), "w":Math.random() };
+		x = Math.random() * w
+        y = Math.random() * h
+		src_factory("face"+1, data, x, y, r);
+    //}
+    
+   
+   </script>
+ </body>
+</html>

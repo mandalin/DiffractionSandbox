@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<!-- saved from url=(0029)http://worrydream.com/Tangle/ -->
+<html slick-uniqueid="1"><he ad><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!--<base target="_top">--><base href="." target="_top">
+    <title>Diffraction Sandbox - Version 0</title>
+
+     <!-- stylesheets -->
+    <!-- <link href="./DiffractionSandbox_files/css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" href="./DiffractionSandbox_files/stylesheet.css" type="text/css">
+    <link rel="stylesheet" href="./DiffractionSandbox_files/style.css" type="text/css">
+
+    <!-- Tangle -->
+    <script type="text/javascript" src="./DiffractionSandbox_files/Tangle.js"></script>
+
+    <!-- TangleKit -->
+    <link rel="stylesheet" href="./DiffractionSandbox_files/TangleKit.css" type="text/css">
+    <script type="text/javascript" src="./DiffractionSandbox_files/mootools.js"></script>
+    <script type="text/javascript" src="./DiffractionSandbox_files/sprintf.js"></script>
+    <script type="text/javascript" src="./DiffractionSandbox_files/BVTouchable.js"></script>
+    <script type="text/javascript" src="./DiffractionSandbox_files/TangleKit.js"></script>
+
+    <!-- examples -->
+    <script type="text/javascript" src="./DiffractionSandbox_files/CookieExample.js"></script>
+   <script type="text/javascript" src="./DiffractionSandbox_files/Svensson.js"></script>
+    <script type="text/javascript" src="./DiffractionSandbox_files/BTMDiffractionFiniteWedge.js"></script>
+    <script type="text/javascript" src="./DiffractionSandbox_files/BTMWedge.js"></script>
+    <script type="text/javascript" src="./DiffractionSandbox_files/ParkExample.js"></script>
+    <script type="text/javascript" src="./DiffractionSandbox_files/FilterExample.js"></script>
+    <script type="text/javascript" src="./DiffractionSandbox_files/FilterExampleDSP.js"></script>
+
+
+</head>
+
+<body data-twttr-rendered="true" class="">
+<div id="everything">
+
+
+<div align="center">
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <!-- header -->
+  
+</div>
+<div id="header"></div> 
+<div align="center">
+</div>
+  <!-- header -->
+  
+  
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --><!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- body -->
+  
+<div id="body">
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --><!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- Introduction -->
+	
+	<div class="example">
+	
+		<div class="exampleTop"></div>
+		
+		<div class="exampleCenter">
+			<p align="center">I'm told that acoustic diffraction is sometimes shrouded with a sense of mystery. </p>
+			<br>
+			<p align="center">This is, in part, because it is defined negatively: It is the part of the solution to the linear wave equation which remains when the specular approximation is subtracted from it. 
+		
+			</p>
+			 <br>
+			<p align="center">There are several ways of conceptualizing acoustic diffraction, and many models, <br>
+			each approach being best suited to a particular application. <br><br>
+			The aim of this document is to communicate the practical information as quickly as possible.</p>
+			<br>
+			
+			<p align="center">If this document does not quench your curiosity, additional resources are at the bottom.			
+			</p>
+		</div>
+
+		<div class="exampleBottom"></div>
+	
+	</div>
+   
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --><!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- BTM 1982 example -->
+	
+	<div class="example">
+		<div class="exampleTop"></div>
+		<div class="exampleCenter">
+			<div id="BTMExampleInteractive">
+			
+				<H4 align="center">This bit implements the solution derived in Medwin's 1982 paper. </H4>
+				 
+				<br><br>
+				<p align="center">This paper was significant because it was the first time a <b>transient</b> solution for diffraction around the edge of a wedge was derived. All prior solutions 	
+				assumed the source was <b>continuous</b>, or cyclically repeating eternally. This distinction makes the solution appropriate for use in calculating impulse responses applied to 
+				impulsive sources.</p>
+				<br><br>
+				
+				
+				The tip of the wedge in the image below is the origin.	The edge of the wedge, is the z axis. The edge is finite, and extends from 
+				z<sub>1</sub>= <span data-var="edge_end1" class="TKAdjustableNumber "data-format="%.0f"  data-min="-300" data-max="300" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span> meters to
+				z<sub>2</sub>= <span data-var="edge_end2" class="TKAdjustableNumber "data-format="%.0f"  data-min="-300" data-max="300" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span> meters from the origin.  
+				<br>
+				<br>
+				
+				The solid angle of the wedge, 360° - θ<sub>w</sub> =<span data-var="solid_angle" class="TKAdjustableNumber " data-min="0" data-max="179" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span> °, or <span data-var="wedge_angle_radians_"> radians <br>  
+				
+				
+				<!--fs =<span data-var="fs" class="TKAdjustableNumber " data-min="0" data-max="44100" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span> samples/second                 <br> <br>-->
+				
+				<!--   Rmax =<span data-var="Rmax" class="TKAdjustableNumber " data-min="0" data-max="100" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span>meters, <br> the maximum a source or receiver can be from the edge, this adjusts the scale of the plot below-->
+				
+				<br>
+				Source Position: <br>
+				In Cartesian Coordinates (x, y, z) = [<span data-var="srcx" class="TKAdjustableNumber " data-format="%.0f" data-min="-300" data-max="300" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span> ,             
+				
+				<span data-var="srcy" class="TKAdjustableNumber "data-format="%.0f"  data-min="-300" data-max="300" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span> ,
+				<span data-var="srcz" class="TKAdjustableNumber "data-format="%.0f"  data-min="-300" data-max="300" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span> ] meters
+				<br>
+				In Cylindrical Coordiantes (r, θ, z) =[
+				<span data-var="srcr" class="TKAdjustableNumber " data-format="%.2f" data-min="0" data-max="300" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span> meters,  
+				<span data-var="srctheta" class="TKAdjustableNumber " data-format="%.2f" data-min="0" data-max="6.28" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span> radians,
+				  <span data-var="srcz" class="TKAdjustableNumber "data-format="%.0f"  data-min="-300" data-max="300" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span> meters]  
+				<br><br>
+				
+				<br> 
+				
+				Receiver Position: <br>
+				In Cartesian Coordinates (x, y, z) = [<span data-var="recx" class="TKAdjustableNumber " data-format="%.0f" data-min="-300" data-max="300" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span> ,             
+				
+				<span data-var="recy" class="TKAdjustableNumber "data-format="%.0f"  data-min="-300" data-max="300" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span>,
+				
+				 <span data-var="recz" class="TKAdjustableNumber "data-format="%.0f"  data-min="-300" data-max="300" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span>] meters
+				<br>
+				In Cylindrical Coordiantes (r, θ, z) =[
+				
+				
+				<span data-var="recr" class="TKAdjustableNumber " data-format="%.2f" data-min="0" data-max="300" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span> meters,  
+				<span data-var="rectheta" class="TKAdjustableNumber " data-format="%.2f" data-min="0" data-max="6.28" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span> radians,
+				<span data-var="recz" class="TKAdjustableNumber "data-format="%.0f"  data-min="-300" data-max="300" style="pointer-events: auto;">
+				<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+				</span> meters]   
+				<br><br>
+				
+			
+				
+				
+				<p class="filterSidebar" style="display: block;"></p>
+				
+				<div class="filterIndent" style="position:relative;">
+					<div class="filterFreqPlot">
+						<canvas class="WedgeAxial" data-var="kf1 kq1 solid_angle " width="300" height="300"></canvas>
+						
+						<div class="FilterKnob" data-var="srcx srcy Rmax" style="position: absolute; left: 0px; top: 0px;">
+							<img src="./DiffractionSandbox_files/FilterParamsKnob.png" width="36" height="36" style="position: 
+							absolute; display: none; pointer-events: auto; left: 300px; top: 300px;">
+							<div class="FilterKnobHelp" style="left: 300px; top: 300px; display: none;">drag</div>
+						</div>
+						
+						
+						<div class="FilterKnob1" data-var="recx recy Rmax" style="position: absolute; left: 0px; top: 0px;">
+							<img src="./DiffractionSandbox_files/FilterParamsKnob1.png" width="36" height="36" style="position: 
+							absolute; display: none; pointer-events: auto; left: 300px; top: 300px;">
+							<div class="FilterKnobHelp" style="left: 300px; top: 300px; display: none;">drag</div>
+						</div>
+					</div>
+				</div>
+				
+				    <div class="filterIndent">
+					<canvas class="BTM_IR_Plot" data-var="srcx" style="left:300px;top:-280px;" width="200" height="100"></canvas>
+
+
+					</div>
+	
+	
+			</div>
+			<br><br>
+			The impulse to the right is first order edge diffraction, calculated using the equations below, and reproduced from [2].
+			<br><br>
+			<img  vspace="20" src="BTM_Images/BTMEQ1.jpg" width="550">
+			<br><br>
+		
+			<img  vspace="20" src="BTM_Images/BTMEQ3.jpg" width="300">
+			<br><br>
+			<img  vspace="5" src="BTM_Images/BTMEQ2.jpg" width="650">
+			<br><br>
+			<img  vspace="5" src="BTM_Images/BTMEQ2.1.jpg" width="650">
+			
+			<img vspace="5" src="BTM_Images/BTMEQ2.2.jpg" width="650">
+			<img  vspace="5" src="BTM_Images/BTMEQ2.3.jpg" width="650">
+			<img  vspace="5" src="BTM_Images/BTMEQ2.4.jpg" width="650">
+
+		
+		
+		</div>
+	
+
+		
+		<div class="exampleBottom"></div>
+		
+
+						
+	</div>
+	
+	
+	
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --><!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+		
+	<div class="example">
+	
+		<div class="exampleTop"></div>
+		
+		<div class="exampleCenter">
+			<H3 align="center">Well, that's lovely... but what's the point ? </H3>
+			<br><br>
+			<ul>
+			<li align="center">This theory can be used to predict the amplitude of noise diffracted around barriers.</li>
+			<br>
+			<li align="center">The theory above can be applied to EVERY wedge in a geometry that sound is incident upon, the superposition of all the solutions would give the impulse response of the
+			diffracted field.</li>
+			</ul>
+
+		</div>
+
+		<div class="exampleBottom"></div>
+	
+	</div>
+	
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --><!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+	<div id="cookieExample" class="example">
+	<div class="exampleTop"></div>
+	<div class="exampleCenter">
+	
+	
+	
+	<p>The most common practical application: How much sound will pass around a barrier ? 
+	<p>&nbsp;</p>
+	<p>Approaches which assume the barrier is perfectly thin, are as follows: </p>
+	<p>Maekawa (Emperical)</p>
+	<p>Cortin </p>
+	<p>ISO 9613.2<br>
+	</p>
+	<br>
+	<p>Empirical, Spherical Sources</p>
+	<span data-var="cookies" class="TKAdjustableNumber " data-min="2" data-max="100" style="pointer-events: auto;"><div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: 		
+	-11px;">drag</div> cookies</span>, you consume <span data-var="calories"></span> calories.</p>
+	
+	
+	</div>
+	<div class="exampleBottom"></div>
+	</div>
+	
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --><!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+	<div id="SvenssonExample" class="example">    
+	<div class="exampleTop"></div><div class="exampleCenter">
+	<p>Independent Variables for the BTM Model include
+	<p></p>
+	
+	
+	
+	c=<span data-var="c" class="TKAdjustableNumber " data-min="250" data-max="400" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> m/s<br>
+	
+	r<sub>S</sub>=<span data-var="r_S" class="TKAdjustableNumber " data-min="0" data-max="10" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> m<br>
+	
+	r<sub>R</sub>=<span data-var="r_R" class="TKAdjustableNumber " data-min="0" data-max="100" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> m<br>
+	
+	z<sub>S</sub>=<span data-var="z_S" class="TKAdjustableNumber " data-min="0" data-max="100" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> m<br>
+	
+	z<sub>R</sub>=<span data-var="z_R" class="TKAdjustableNumber " data-min="0" data-max="100" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> m<br>
+	
+	θ<sub>S</sub> =<span data-var="theta_S" class="TKAdjustableNumber " data-min="0" data-max="360" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> degrees<br>
+	
+	θ<sub>R</sub> =<span data-var="theta_R" class="TKAdjustableNumber " data-min="0" data-max="360" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> degrees</p><br>
+	
+	η =<span data-var="eta" class="TKAdjustableNumber " data-min="2" data-max="100" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> m/s<br>
+	
+	τ =<span data-var="tau" class="TKAdjustableNumber " data-min="0" data-max="100" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> s<br>
+	
+	
+	
+	<p align="left">        
+	<p align="left"><img src="DiffractionSandbox_files/Images/BTMEquations.png" width="513" height="670">                
+	<p>        
+	
+	
+	
+	<p>    
+	</div> <div class="exampleBottom"></div>                   
+	</div>
+	
+	<div id="BTMExample" class="example">    
+	<div class="exampleTop"></div><div class="exampleCenter">
+	<p>Independent Variables for the Svensson Model include
+	<p></p>
+	
+	
+	c=<span data-var="c" class="TKAdjustableNumber " data-min="250" data-max="400" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> m/s<br>
+	
+	r<sub>S</sub>=<span data-var="r_S" class="TKAdjustableNumber " data-min="0" data-max="100" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> m<br>
+	
+	r<sub>R</sub>=<span data-var="r_R" class="TKAdjustableNumber " data-min="0" data-max="100" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> m<br>
+	
+	z<sub>S</sub>=<span data-var="z_S" class="TKAdjustableNumber " data-min="0" data-max="100" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> m<br>
+	
+	z<sub>R</sub>=<span data-var="z_R" class="TKAdjustableNumber " data-min="0" data-max="100" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> m<br>
+	
+	θ<sub>S</sub> =<span data-var="theta_S" class="TKAdjustableNumber " data-min="0" data-max="360" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> degrees<br>
+	
+	θ<sub>R</sub> =<span data-var="theta_R" class="TKAdjustableNumber " data-min="0" data-max="360" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> degrees</p><br>
+	
+	η =<span data-var="eta" class="TKAdjustableNumber " data-min="2" data-max="100" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> m/s<br>
+	
+	τ =<span data-var="tau" class="TKAdjustableNumber " data-min="0" data-max="100" style="pointer-events: auto;">
+	<div class="TKAdjustableNumberHelp" style="display: none; left: 24px; top: -11px;">drag</div>
+	</span> s<br>
+	
+	
+	
+	
+	
+	<p align="left">        
+	<p align="left">
+	<p align="left">       
+	
+	
+	
+	<p align="left">        
+	<p align="left">        
+	<p align="left"><img src="DiffractionSandbox_files/Images/BTMEquations.png" width="513" height="670">                
+	<p>        
+	<p>                                  
+	<p>    
+	<p>    
+	<p>    
+	<p>    
+	<p>    
+	<p>                        
+	</div>    <div class="exampleBottom"></div> 
+	</div>     
+	
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --><!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- References and Resources -->
+	
+	
+	
+	<H2> Resources Consulted </H2>
+	<br> 
+	[1]	The format for this page was shamelessly stolen from http://worrydream.com/Tangle/ , call it an homage.
+	<br>
+	<br>
+	[2]	Medwin, H., Childs, E., & Jebsen, G. M. (1982). Impulse studies of double diffraction: A discrete Huygens interpretation. Journal of the Acoustical Society of America, 72(September), 1005–1013.
+	<br>
+	<br>
+	[3]	JavaScript: The Good Parts by Douglas Crockford. Copyright 2008 Yahoo! Inc.,
+	978-0-596-51774-8
+	<br>
+	<br>
+	[4] Hart, C. R. (2014). On a combined adaptive tetrahedral tracing and edge diffraction model. University of Nebraska - Lincoln. Retrieved from http://digitalcommons.unl.edu/archengdiss/29/
+	<br>
+	<br>
+	Assembled in 2014 by Amanda.Blair.Lind@gmail.com</div>
+	</div></div></div>
+</body>
+</html>
