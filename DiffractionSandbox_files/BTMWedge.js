@@ -791,8 +791,8 @@ Tangle.classes.WedgeAxial = {
 
 Tangle.classes.BTM_IR_Plot = {
 
-    initialize: function (el, srcx) {
-        var canvasWidth = el.get("width");
+ update: function (el, srcx,srcy,srcz, solid_angle,edge_end1,edge_end2,recx,recy,recz) {
+  		var canvasWidth = el.get("width");
         var canvasHeight = el.get("height");
         var ctx = el.getContext("2d");
         var widthBeforeStep = 0;
@@ -810,10 +810,20 @@ Tangle.classes.BTM_IR_Plot = {
        // ctx.lineTo(canvasWidth,canvasHeight/2);
        // ctx.stroke();
 	   var N= canvasWidth;
+	 
+	   var rs=Math.sqrt(srcx*srcx+srcy*srcy+srcz*srcz);
+	   var rr=Math.sqrt(srcx*srcx+srcy*srcy+srcz*srcz);
+	   var Z=Math.sqrt((srcz-recz)*(srcz-recz));
+	   var co=343;
 	   
-	   var which_case=1;
+	   var corner_1=[0,0,edge_end1];
+	   var corner_2=[0,0,edge_end2];
 	   
-	   var IRvalues = BTM_IR(which_case) ;
+	   var apex= find_apex(rs, rr, srcz, recz);
+	   var diff_case=which_case(apex, corner_1, corner_2);
+	   var least_time = calc_least_time(rr,rs,Z,co)
+	  
+	   var IRvalues = BTM_IR(diff_case) ;
 	   
 	   ctx.moveTo(0, canvasHeight-1);
        ctx.lineTo(widthBeforeStep, canvasHeight-1);
