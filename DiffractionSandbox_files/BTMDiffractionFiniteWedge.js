@@ -108,7 +108,7 @@ return apex_point;
  	}
 
     
-    var t, tau, yargtau;
+    var t, tau, tauo, yargtau;
     var source_to_apex_distance=magnitude(subtract(Qpos,apex));
  	var pi=Math.PI;
 	var theta=Math.atan(Ppos[1]/Ppos[0]);
@@ -118,6 +118,9 @@ return apex_point;
 	
  	for(var n_diff=1;  n_diff<Ndiff ;n_diff++ ){ 
   		t=least_time+n_diff/fsdiff;  
+		tau=t-least_time;
+		tauo=least_time;
+		
         
 		yarg=((co*co*t*t) - ((rr*rr) + (rs*rs) + (Z*Z))) / (2.0*rr*rs);
 		//yargtau=((co*co*(2.0*(least_time*tau + tau*tau)))/(2.0*r*ro))+1;
@@ -134,59 +137,63 @@ return apex_point;
 			var Beta_num_3 = Math.sin( (pi / theta_w) * (pi - theta + thetao) );
 			var Beta_num_4 = Math.sin( (pi / theta_w) * (pi - theta - thetao) );            
 		}
-// 			var exparg=(-pi * y) / theta_w;
-// 			var cosarg=pi/theta_w;
+ 			var exparg=(-pi * y) / theta_w;
+ 			var cosarg=pi/theta_w;
 			
-//             Beta_denom_1=1.0-(2.0* Math.exp(exparg) * Math.cos( cosarg * (pi + theta + thetao)  )) + Math.exp((-2.0*pi*y) / theta_w);
-//             Beta_denom_2=1.0-(2.0* Math.exp(exparg) * Math.cos( cosarg * (pi + theta - thetao)  )) + Math.exp((-2.0*pi*y) / theta_w);
-//             Beta_denom_3=1.0-(2.0* Math.exp(exparg) * Math.cos( cosarg * (pi - theta + thetao)  )) + Math.exp((-2.0*pi*y) / theta_w);
-//             Beta_denom_4=1.0-(2.0* Math.exp(exparg) * Math.cos( cosarg * (pi - theta - thetao)  )) + Math.exp((-2.0*pi*y) / theta_w); 
+             var Beta_denom_1=1.0-(2.0* Math.exp(exparg) * Math.cos( cosarg * (pi + theta + thetao)  )) + Math.exp((-2.0*pi*y) / theta_w);
+             var Beta_denom_2=1.0-(2.0* Math.exp(exparg) * Math.cos( cosarg * (pi + theta - thetao)  )) + Math.exp((-2.0*pi*y) / theta_w);
+             var Beta_denom_3=1.0-(2.0* Math.exp(exparg) * Math.cos( cosarg * (pi - theta + thetao)  )) + Math.exp((-2.0*pi*y) / theta_w);
+             var Beta_denom_4=1.0-(2.0* Math.exp(exparg) * Math.cos( cosarg * (pi - theta - thetao)  )) + Math.exp((-2.0*pi*y) / theta_w); 
             
-//             Beta= (Beta_num_1/Beta_denom_1) + (Beta_num_2/Beta_denom_2) + (Beta_num_3/Beta_denom_3) + (Beta_num_4/Beta_denom_4);
+             Beta= (Beta_num_1/Beta_denom_1) + (Beta_num_2/Beta_denom_2) + (Beta_num_3/Beta_denom_3) + (Beta_num_4/Beta_denom_4);
 
             
             
 //             //for spherical waves
-//             p_of_t=((-S*rho*co)/(4.0*pi*theta_w)) * Beta * (1.0/(r*ro*sinh(y))) * Math.exp((-pi*y) / theta_w);
+			 var without_approximation=(rr*rs*sinh(y));
+			 var with_approximation=Math.sqrt(2*tauo*tau*co*co*rs*rr);
+			 S=1;
+			 rho=1.2;
+             p_of_t=((-S*rho*co)/(4.0*pi*theta_w)) * Beta * (1.0/without_approximation) * Math.exp((-pi*y) / theta_w);
 
 //             //for plane waves 
 //             //p_of_t=(source_to_apex_distance*4.0*pi) *((-S*rho*co)/(4.0*pi*theta_w)) * Beta * (1.0/(r*ro*std::sinh(y))) * Math.exp((-pi*y) / theta_w);
             
-//             p_of_t=p_of_t/fsdiff;            
+             p_of_t=p_of_t/fsdiff;            
 
 //             //   A  e1_________e2     case 1
 //             //      e1____A____e2     case 2   
 //             //      e1_________e2 A   case 3
             
-//             if(! infinite_wedge){
-//                 switch (which_case){
-//                     case 1:
-//                         if((t<edge_time_a)||(t>edge_time_b))  
-//                         {   ImpulseResponse[n_diff]=0;}
-//                         else 
-//                         {   ImpulseResponse[n_diff]=p_of_t/2;}
-//                         break;
+            if(! infinite_wedge){
+                switch (which_case){
+                    case 1:
+                        if((t<edge_time_a)||(t>edge_time_b))  
+                        {   ImpulseResponse[n_diff]=0;}
+                        else 
+                        {   ImpulseResponse[n_diff]=p_of_t/2;}
+                        break;
                         
-//                     case 2:
-//                         if((t>edge_time_a) || (t>edge_time_b))
-//                         {   ImpulseResponse[n_diff]=p_of_t/2;}
-//                         else if((t>edge_time_a) && (t>edge_time_b))
-//                         {   ImpulseResponse[n_diff]=0;}
-//                         else
-//                         {   ImpulseResponse[n_diff]=p_of_t;}
-//                         break;
+                    case 2:
+                        if((t>edge_time_a) || (t>edge_time_b))
+                        {   ImpulseResponse[n_diff]=p_of_t/2;}
+                        else if((t>edge_time_a) && (t>edge_time_b))
+                        {   ImpulseResponse[n_diff]=0;}
+                        else
+                        {   ImpulseResponse[n_diff]=p_of_t;}
+                        break;
                         
-//                     case 3:
-//                         if((t<edge_time_b)||(t>edge_time_a)) 
-//                         {   ImpulseResponse[n_diff]=0;}
-//                         else
-//                         {   ImpulseResponse[n_diff]=p_of_t/2;}
-//                         break;
+                    case 3:
+                        if((t<edge_time_b)||(t>edge_time_a)) 
+                        {   ImpulseResponse[n_diff]=0;}
+                        else
+                        {   ImpulseResponse[n_diff]=p_of_t/2;}
+                        break;
                         
-//                     default: cout << "UnspecifiedCase";
-//                         break;
-//                 }
-//             }
+                    default: cout << "UnspecifiedCase";
+                        break;
+                }
+            }
             
 //         }
         
