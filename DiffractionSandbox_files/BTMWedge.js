@@ -19,12 +19,12 @@ window.addEvent('domready', function ()
         initialize: function ()
 		{
 			
-            this.solid_angle = 60;  this.index = 1;
-			this.fs=44100;
-			this.Rmax=10;
-            this.srcx = 1;  this.srcy = 2; this.srcz = 0;
-			this.recx = 50;  this.recy = 40;  this.recz = 1;
-			this.edge_end1 = -2; 		this.edge_end2 = 2;
+            this.solid_angle = 60.0;  this.index = 1.0;
+			this.fs=44100.0;
+			this.Rmax=10.0;
+            this.srcx = 1.0;  this.srcy = 2.0; this.srcz = 0.0;
+			this.recx = 50.0;  this.recy = 40.0;  this.recz = 1.0;
+			this.edge_end1 = -2.0; 		this.edge_end2 = 2.0;
 			
 			this.recr = Math.sqrt(this.recx*this.recx+this.recy*this.recy);
 			this.srcr = Math.sqrt(this.srcx*this.srcx+this.srcy*this.srcy);
@@ -52,7 +52,7 @@ window.addEvent('domready', function ()
         
         update: function () 
 		{	     
-            this.wedge_angle_radians_ = this.solid_angle * (Math.PI/180);
+            this.wedge_angle_radians_ = this.solid_angle * (Math.PI/180.0);
 			
 			this.recr = Math.sqrt(this.recx*this.recx+this.recy*this.recy);
 			this.srcr = Math.sqrt(this.srcx*this.srcx+this.srcy*this.srcy);
@@ -81,8 +81,8 @@ window.addEvent('domready', function ()
             
             // filter coefficients
 
-            this.kf = 2 * Math.sin(Math.PI * fc / this.fs);
-            this.kq = 1 / q;
+            this.kf = 2.0 * Math.sin(Math.PI * fc / this.fs);
+            this.kq = 1.0 / q;
 
             // transfer function coefficients
 
@@ -170,24 +170,23 @@ window.addEvent('domready', function ()
 //            ^                                      |
 //            '----(-1)------------------------------'
 
-function BTM_IR_Calc (N1) {
+function BTM_IR_Calc (N) {
 //function BTM_IR_Calc (N,rs,rr,srcz,recz) {	
 	
 //var apex=find_apex(rs, rr, srcz, recz);
 	
 	
 	
-    if (!N1) { N1 = 512; }
+    if (!N) { N = 512; }
     
     var output = [];
     
-    for (var i = 0; i < N1; i++) {
+    for (var i = 0; i < N; i++) {
         output[i] = i/250;
     }
 
     return output;
 }
-
 
 
 function chamberlinResponse (solid_angle,edge_end1,N,x) {
@@ -225,8 +224,8 @@ Tangle.classes.FilterKnob = {
    
     initialize: function (el, options, tangle, xParameter, yParameter, Rmax ) {
         var index = 1;
-        var xBounds = { min: -300, max:300 };
-        var yBounds = { min: -300, max:300 };
+        var xBounds = { min: -300.0, max:300.0 };
+        var yBounds = { min: -300.0, max:300.0 };
 		var xpixBounds = { min:0, max:canvasWidth };
         var ypixBounds = { min:0, max:canvasHeight };
     
@@ -401,7 +400,7 @@ Tangle.classes.WedgeAxial = {
 		//var wedge_angle=solid_angle;
         var unstable = this.tangle.getValue("unstable");
     
-        var N = 2048;
+        var N = 2048.0;
         var impulseResponse = chamberlinImpulseResponse(kf,kq,N);
     
         var fft = new RFFT(N, fs);
@@ -665,7 +664,7 @@ Tangle.classes.WedgeAxial = {
         this.tangle = tangle;
     },
 
-    update: function (el, kf, kq) {
+    update: function (el,kf,kq) {
 		//var wedge_angle = this.tangle.wedge_angle_;
 		//var wedge_angle =this.tangle.getValue("theta_W");
 		//var wedge_angle = 140;
@@ -722,6 +721,14 @@ Tangle.classes.WedgeAxial = {
 				   }
 				 }
 				
+					 if(solid_angle==90)
+				 {
+					 if(x<canvasWidth/2)
+				   {
+					 ctx.fillRect(x, center_point_y , 1, canvasHeight/2);
+				   }
+				 }
+				 
 				 if ((solid_angle<= 90)&&(solid_angle>0))
 				 {
 				   if(x<canvasWidth/2)
@@ -784,9 +791,15 @@ Tangle.classes.WedgeAxial = {
 //  FilterStepPlot
 //
 
+
+ 
 Tangle.classes.BTM_IR_Plot = {
 
-    initialize: function (el, srcx) {
+    initialize: function (el, options, tangle) {
+        this.tangle = tangle;
+    },
+		
+    update: function (el, srcx,srcy,srcz, solid_angle,edge_end1,edge_end2,recx,recy,recz) {
         var canvasWidth = el.get("width");
         var canvasHeight = el.get("height");
         var ctx = el.getContext("2d");
@@ -805,10 +818,38 @@ Tangle.classes.BTM_IR_Plot = {
        // ctx.lineTo(canvasWidth,canvasHeight/2);
        // ctx.stroke();
 	   var N= canvasWidth;
-	   //var IRvalues = BTM_IR_Calc (N,rs,rr,srcz,recz) ;
+	   
+	   var solid_angle=this.tangle.getValue("solid_angle");
+ 	   var edge_end1=this.tangle.getValue("edge_end1");
+ 	   var edge_end2=this.tangle.getValue("edge_end2");
+ 	   var srcx=this.tangle.getValue("srcx");
+ 	   var srcy=this.tangle.getValue("srcy");
+ 	   var srcz=this.tangle.getValue("srcz");
+ 	   var recx=this.tangle.getValue("recx");
+ 	   var recy=this.tangle.getValue("recy");
+ 	   var recz=this.tangle.getValue("recz");
+
+
+	   var src_r=Math.sqrt(srcx*srcx+srcy*srcy);
+	   var rec_r=Math.sqrt(recx*recx+recy*recy);
+
 	   var IRvalues = BTM_IR_Calc(N);
 	   
-	           ctx.moveTo(0, canvasHeight-1);
+ 	   var apex_point = find_apex(src_r, rec_r, srcz, recz);
+	   var diffraction_case = which_case(apex_point, edge_end1, edge_end2);
+	   
+	   var corner1=[0,0,edge_end1];
+	   var corner2=[0,0,edge_end2];
+	   var Ppos=[recx,recy,recz];
+	   var Qpos=[srcx,srcy,srcz];
+	   var co=343;
+	   var theta_w=360-solid_angle;
+	   
+	   var S=1;
+	   var rho=1.2;
+	  // var IRvalues2 = BTM_IR( diffraction_case, corner1, corner2, Qpos, Ppos, co,apex_point,theta_w,S,rho);
+	   
+	    ctx.moveTo(0, canvasHeight-1);
         ctx.lineTo(widthBeforeStep, canvasHeight-1);
     
         for (var x = widthBeforeStep; x < canvasWidth; x++) {
@@ -825,72 +866,6 @@ Tangle.classes.BTM_IR_Plot = {
 };
 
 
-//----------------------------------------------------------
-//
-//  FilterPolePlot
-//
-
-Tangle.classes.FilterPolePlot = {
-
-    initialize: function (el, options, tangle) {
-        this.tangle = tangle;
-    },
-
-    update: function (el, pole1Real, pole1Imag, pole2Real, pole2Imag) {
-        var pole1Inside = this.tangle.getValue("pole1Inside");
-        var pole2Inside = this.tangle.getValue("pole2Inside");
-
-        var canvasWidth = el.get("width");
-        var canvasHeight = el.get("height");
-        var ctx = el.getContext("2d");
-        var unitRadius = canvasWidth * 1/4;
-    
-        // draw arena
-    
-        ctx.fillStyle = "#fff";
-        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-        
-        ctx.fillStyle = "#f4f4f4";
-        ctx.beginPath();
-        ctx.arc(canvasWidth/2, canvasHeight/2, unitRadius, 0, Math.PI * 2, false);
-        ctx.fill();
-    
-        ctx.strokeStyle = "#fff";
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(canvasWidth/2 - unitRadius, canvasHeight/2);
-        ctx.lineTo(canvasWidth/2 + unitRadius, canvasHeight/2);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(canvasWidth/2, canvasHeight/2 - unitRadius);
-        ctx.lineTo(canvasWidth/2, canvasHeight/2 + unitRadius);
-        ctx.stroke();
-    
-        // draw poles
-        
-        ctx.strokeStyle = pole1Inside ? "#00f" : "#f00";
-        drawCrossAtPoint(canvasWidth/2 + unitRadius * pole1Real,
-                         canvasHeight/2 + unitRadius * pole1Imag);
-    
-        ctx.strokeStyle = pole2Inside ? "#00f" : "#f00";
-        drawCrossAtPoint(canvasWidth/2 + unitRadius * pole2Real, 
-                         canvasHeight/2 + unitRadius * pole2Imag);
-        
-        function drawCrossAtPoint(x,y) {
-            var crossRadius = 3;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(x - crossRadius, y - crossRadius);
-            ctx.lineTo(x + crossRadius, y + crossRadius);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x - crossRadius, y + crossRadius);
-            ctx.lineTo(x + crossRadius, y - crossRadius);
-            ctx.stroke();
-        }
-    }
-    
-};
 
 
 })();
