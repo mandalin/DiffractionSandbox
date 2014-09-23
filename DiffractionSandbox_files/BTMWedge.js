@@ -721,6 +721,14 @@ Tangle.classes.WedgeAxial = {
 					  ctx.fillRect(x, center_point_y , 1, 1);
 				   }
 				 }
+				 
+		  		 if(solid_angle==90)
+				 {
+					 if(x<canvasWidth/2)
+				   {
+					  ctx.fillRect(x, center_point_y , 1, canvasHeight/2);
+				   }
+				 }
 				
 				 if ((solid_angle<= 90)&&(solid_angle>0))
 				 {
@@ -806,21 +814,20 @@ Tangle.classes.BTM_IR_Plot = {
 	   var which_case=1;
 	   
 	   var IRvalues = BTM_IR(which_case) ;
-	   var IRvalues = BTM_IR_Calc(N);
 	   
-	           ctx.moveTo(0, canvasHeight-1);
-        ctx.lineTo(widthBeforeStep, canvasHeight-1);
+	   ctx.moveTo(0, canvasHeight-1);
+       ctx.lineTo(widthBeforeStep, canvasHeight-1);
     
-        for (var x = widthBeforeStep; x < canvasWidth; x++) {
+       for (var x = widthBeforeStep; x < canvasWidth; x++) {
             var i = x - widthBeforeStep;
             var value = i/250;
 			//var value = values[ceil(x)];
    		
             var y = value * canvasHeight/2;
             ctx.lineTo(x, canvasHeight - y);
-        }
+       }
         
-        ctx.stroke();
+       ctx.stroke();
     }
 };
 
