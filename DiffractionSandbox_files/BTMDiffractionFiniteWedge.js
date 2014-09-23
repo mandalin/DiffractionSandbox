@@ -65,7 +65,7 @@ return apex_point;
  };
  
  
- function BTM_IR( which_case, Ppos, Qpos, corner_1, corner_2, co){		
+ function BTM_IR( which_case, Ppos, Qpos, corner_1, corner_2, co,least_time, fsdiff, apex, rr, rs, Z, theta_w){		
 	var infinite_wedge=false;
     var least_time;
     var edge_distance_a, edge_time_a;
@@ -86,55 +86,54 @@ return apex_point;
     
  	edge_time_a=edge_distance_a/co;
 	edge_time_b=edge_distance_b/co;
+	
+	var incident_sound_at_receiver_time=magnitude(subtract(Ppos,Qpos))/co;
+    var diffraction_delay=least_time-incident_sound_at_receiver_time;
+   
 
-		
-// 	least_time=calc_least_time(r,ro,Z,co) ;
+    var yarg, y, Beta_num_1, Beta_num_2, Beta_num_3, Beta_num_4 , Beta_denom_1, Beta_denom_2, Beta_denom_3, Beta_denom_4, Beta, p_of_t;
+    
+    
+  	//Create Empty IR
+    var Ndiff=Math.round(fsdiff);//this could be better...????!!!!
+   	//Ndiff=100; //For Fig8 Medwin 1982
+	var ImpulseResponse=[];
+	ImpulseResponse.length=Ndiff;
 
-//     var incident_sound_at_receiver_time=magnitude(subtract(Ppos,Qpos))/co;
-//     var diffraction_delay=least_time-incident_sound_at_receiver_time;
-    
-//     var IR_written;
-//     var yarg, y, Beta_num_1, Beta_num_2, Beta_num_3, Beta_num_4 , Beta_denom_1, Beta_denom_2, Beta_denom_3, Beta_denom_4, Beta, p_of_t;
-    
-    
-//     //Create Empty IR
  
-//  	var longest_time;
-//     if(edge_time_a>edge_time_b){   
-// 	longest_time=edge_time_a;
-// 	}
-//     else{ longest_time=edge_time_b;
-// 	}
+  	var longest_time;
+    if(edge_time_a>edge_time_b){   
+ 		longest_time=edge_time_a;
+ 	}else{ longest_time=edge_time_b;
+ 	}
 
-//     var Ndiff=Math.round(fsdiff);//this could be better...????!!!!
-//     //Ndiff=100; //For Fig8 Medwin 1982
     
-//     //std::vector<double> ImpulseResponse(Ndiff);
+    var t, tau, yargtau;
+    var source_to_apex_distance=magnitude(subtract(Qpos,apex));
+ 	var pi=Math.PI;
+	var theta=Math.atan(Ppos[1]/Ppos[0]);
+	var thetao=Math.atan(Qpos[1]/Qpos[0]);
 	
-// 	var ImpulseResponse=[];
-// 	ImpulseResponse.length=Ndiff;
-//     var t, tau, yargtau;
-//     var source_to_apex_distance=magnitude(subtract(Qpos,least_time_point));
-// 	var pi=Math.PI;
+
 	
-//     for(var n_diff=1;  n_diff<Ndiff ;n_diff++ ){ 
-//         t=least_time+n_diff/fsdiff;  
+ 	for(var n_diff=1;  n_diff<Ndiff ;n_diff++ ){ 
+  		t=least_time+n_diff/fsdiff;  
         
-//         yarg=((co*co*t*t) - ((r*r) + (ro*ro) + (Z*Z))) / (2.0*r*ro);
-//         //yargtau=((co*co*(2.0*(least_time*tau + tau*tau)))/(2.0*r*ro))+1;
+		yarg=((co*co*t*t) - ((rr*rr) + (rs*rs) + (Z*Z))) / (2.0*rr*rs);
+		//yargtau=((co*co*(2.0*(least_time*tau + tau*tau)))/(2.0*r*ro))+1;
         
-//         if(yarg  < 1){    
-// 		ImpulseResponse[n_diff]=0;
-//         }
+		if(yarg  < 1){    
+			ImpulseResponse[n_diff]=0;
+		}
         
-//         else{
-//             y=acosh(yarg); 
-            
-//             Beta_num_1 = sin( (pi / theta_w) * (pi + theta + thetao) );
-//             Beta_num_2 = sin( (pi / theta_w) * (pi + theta - thetao) );
-//             Beta_num_3 = sin( (pi / theta_w) * (pi - theta + thetao) );
-//             Beta_num_4 = sin( (pi / theta_w) * (pi - theta - thetao) );
-            
+		else{
+         	y=acosh(yarg); 
+
+			var Beta_num_1 = Math.sin( (pi / theta_w) * (pi + theta + thetao) );
+			var Beta_num_2 = Math.sin( (pi / theta_w) * (pi + theta - thetao) );
+			var Beta_num_3 = Math.sin( (pi / theta_w) * (pi - theta + thetao) );
+			var Beta_num_4 = Math.sin( (pi / theta_w) * (pi - theta - thetao) );            
+		}
 // 			var exparg=(-pi * y) / theta_w;
 // 			var cosarg=pi/theta_w;
 			
@@ -191,7 +190,7 @@ return apex_point;
             
 //         }
         
-//    }
+   }
 	
 		
 		
