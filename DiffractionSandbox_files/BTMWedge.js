@@ -818,12 +818,14 @@ Tangle.classes.BTM_IR_Plot = {
 	   
 	   var corner_1=[0,0,edge_end1];
 	   var corner_2=[0,0,edge_end2];
+	   var Qpos=[srcx, srcy, srcz];
+	   var Ppos=[recx, recy, recz];
 	   
 	   var apex= find_apex(rs, rr, srcz, recz);
 	   var diff_case=which_case(apex, corner_1, corner_2);
 	   var least_time = calc_least_time(rr,rs,Z,co)
 	  
-	   var IRvalues = BTM_IR(diff_case) ;
+	   var IRvalues = BTM_IR(diff_case, Ppos, Qpos, corner_1, corner_2, co) ;
 	   
 	   ctx.moveTo(0, canvasHeight-1);
        ctx.lineTo(widthBeforeStep, canvasHeight-1);

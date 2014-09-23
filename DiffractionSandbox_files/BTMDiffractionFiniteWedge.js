@@ -65,9 +65,7 @@ return apex_point;
  };
  
  
- 
- 
- function BTM_IR( which_case){		
+ function BTM_IR( which_case, Ppos, Qpos, corner_1, corner_2, co){		
 	var infinite_wedge=false;
     var least_time;
     var edge_distance_a, edge_time_a;
@@ -78,16 +76,16 @@ return apex_point;
 	var ImpulseResponse=[];
 	ImpulseResponse.length=44100.0;
 	ImpulseResponse[0]=1;
-//     temp1=magnitude(subtract(corner1, Ppos));
-//     temp2=magnitude(subtract(corner1, Qpos));
-//     edge_distance_a = temp1 + temp2;
+    temp1=magnitude(subtract(corner_1, Ppos));
+    temp2=magnitude(subtract(corner_1, Qpos));
+    edge_distance_a = temp1 + temp2;
+   	
+   	temp1=magnitude(subtract(corner_2, Ppos));
+    temp2=magnitude(subtract(corner_2, Qpos));
+	edge_distance_b = temp1 + temp2;
     
-// 	temp1=magnitude(subtract(corner2, Ppos));
-//     temp2=magnitude(subtract(corner2, Qpos));
-//     edge_distance_b = temp1 + temp2;
-    
-// 	edge_time_a=edge_distance_a/co;
-//     edge_time_b=edge_distance_b/co;
+ 	edge_time_a=edge_distance_a/co;
+	edge_time_b=edge_distance_b/co;
 
 		
 // 	least_time=calc_least_time(r,ro,Z,co) ;
