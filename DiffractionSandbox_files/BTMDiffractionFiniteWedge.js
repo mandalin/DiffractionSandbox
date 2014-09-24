@@ -116,8 +116,8 @@ return apex_point;
 	
 
 	
- 	for(var n_diff=1;  n_diff<Ndiff ;n_diff++ ){ 
-  		t=least_time+n_diff/fsdiff;  
+ 	for(var n_diff=0;  n_diff<Ndiff ;n_diff++ ){ 
+  		t=least_time+n_diff/fsdiff+(.5/fsdiff);  
 		tau=t-least_time;
 		tauo=least_time;
 		
@@ -137,6 +137,7 @@ return apex_point;
 			var Beta_num_3 = Math.sin( (pi / theta_w) * (pi - theta + thetao) );
 			var Beta_num_4 = Math.sin( (pi / theta_w) * (pi - theta - thetao) );            
 		}
+		
  			var exparg=(-pi * y) / theta_w;
  			var cosarg=pi/theta_w;
 			
@@ -151,19 +152,24 @@ return apex_point;
             
 //             //for spherical waves
 			 var without_approximation=(rr*rs*sinh(y));
-			 var with_approximation=Math.sqrt(2*tauo*tau*co*co*rs*rr);
+			 var with_approximation=Math.sqrt(2*tauo*(tau)*co*co*rs*rr);
 			 S=1;
 			 rho=1.2;
-             p_of_t=((-S*rho*co)/(4.0*pi*theta_w)) * Beta * (1.0/without_approximation) * Math.exp((-pi*y) / theta_w);
-
+			 
+			 //if(without_approximation==0){  
+			 //		p_of_t=((-S*rho*co)/(4.0*pi*theta_w)) * Beta * (1.0/with_approximation) * Math.exp((-pi*y) / theta_w);
+			 //}else{
+             p_of_t=((-S*rho*co)/(4.0*pi*theta_w)) * Beta * (1.0*without_approximation) * Math.exp((-pi*y) / theta_w);
+			 //}
+			 
 //             //for plane waves 
 //             //p_of_t=(source_to_apex_distance*4.0*pi) *((-S*rho*co)/(4.0*pi*theta_w)) * Beta * (1.0/(r*ro*std::sinh(y))) * Math.exp((-pi*y) / theta_w);
             
              p_of_t=p_of_t/fsdiff;            
 
-//             //   A  e1_________e2     case 1
-//             //      e1____A____e2     case 2   
-//             //      e1_________e2 A   case 3
+            //   A  e1_________e2     case 1
+            //      e1____A____e2     case 2   
+            //      e1_________e2 A   case 3
             
             if(! infinite_wedge){
                 switch (which_case){
@@ -175,11 +181,11 @@ return apex_point;
                         break;
                         
                     case 2:
-                        if((t>edge_time_a) || (t>edge_time_b))
-                        {   ImpulseResponse[n_diff]=p_of_t/2;}
-                        else if((t>edge_time_a) && (t>edge_time_b))
-                        {   ImpulseResponse[n_diff]=0;}
-                        else
+//                         if((t>edge_time_a) || (t>edge_time_b))
+//                         {   ImpulseResponse[n_diff]=p_of_t/2;}
+//                         else if((t>edge_time_a) && (t>edge_time_b))
+//                         {   ImpulseResponse[n_diff]=0;}
+//                         else
                         {   ImpulseResponse[n_diff]=p_of_t;}
                         break;
                         
@@ -194,13 +200,9 @@ return apex_point;
                         break;
                 }
             }
-            
-//         }
         
    }
 	
-		
-		
 		
 	return ImpulseResponse;
 		

@@ -823,21 +823,55 @@ Tangle.classes.BTM_IR_Plot = {
 	   
 	   var apex= find_apex(rs, rr, srcz, recz);
 	   var diff_case=which_case(apex, corner_1, corner_2);
-	   var least_time = calc_least_time(rr,rs,Z,co)
+	   var least_time = calc_least_time(rr,rs,Z,co);
 	   var fsdiff=44100.0;
 	   var theta_w=360-solid_angle;
 	  
 	   var IRvalues = BTM_IR(diff_case, Ppos, Qpos, corner_1, corner_2, co, least_time, fsdiff,apex, rr, rs, Z, theta_w) ;
+	   var ScaledIRvalues=[];
+	   ScaledIRvalues.length=IRvalues.length;
 	   
+	   var IRmax=-Infinity;
+	   var IRmin=Infinity;
+	   
+	   for(var ind=0; ind<IRvalues.length; ind++){ //Identify Max and Min
+			if(IRvalues[ind]>IRmax)
+			{	IRmax=IRvalues[ind];}
+			if(IRvalues[ind]<IRmin)
+			{	IRmin=IRvalues[ind];}				
+	   }
+	   
+	   var dynamic_range=IRmax-IRmin;
+	   
+	   if((IRmax*IRmax)>(IRmin*IRmin)){
+		   var rectified_max=Math.sqrt(IRmax*IRmax);
+	   }else{
+		   var rectified_max=Math.sqrt(IRmin*IRmin);
+	   }
+	   
+	   for(var ind=0; ind<IRvalues.length; ind++){
+		 	ScaledIRvalues[ind]=(IRvalues[ind]/rectified_max)*canvasHeight/2.0 + canvasHeight/2.0;
+	   }
+	   
+	   var DecimatedIRvalues=[];
+	   DecimatedIRvalues.length=canvasWidth;
+	   
+	   DecimationRatio=ScaledIRvalues.length/canvasWidth;
+	   
+	   for(var ind=0; ind<canvasWidth; ind++){
+			DecimatedIRvalues[ind]=	ScaledIRvalues[ind*Math.round(DecimationRatio)];
+	   }
+	   
+	  
 	   ctx.moveTo(0, canvasHeight-1);
        ctx.lineTo(widthBeforeStep, canvasHeight-1);
     
        for (var x = widthBeforeStep; x < canvasWidth; x++) {
             var i = x - widthBeforeStep;
-            var value = i/250;
+            var y = DecimatedIRvalues[x];
 			//var value = values[ceil(x)];
    		
-            var y = value * canvasHeight/2;
+            //var y = value * canvasHeight/2;
             ctx.lineTo(x, canvasHeight - y);
        }
         
