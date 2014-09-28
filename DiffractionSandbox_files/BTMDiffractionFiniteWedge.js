@@ -75,7 +75,7 @@ return apex_point;
 	
 	var ImpulseResponse=[];
 	ImpulseResponse.length=44100.0;
-	ImpulseResponse[0]=1;
+	ImpulseResponse[0]=0;
     temp1=magnitude(subtract(corner_1, Ppos));
     temp2=magnitude(subtract(corner_1, Qpos));
     edge_distance_a = temp1 + temp2;
@@ -89,6 +89,7 @@ return apex_point;
 	
 	var incident_sound_at_receiver_time=magnitude(subtract(Ppos,Qpos))/co;
     var diffraction_delay=least_time-incident_sound_at_receiver_time;
+	var diffraction_delay_samples=diffraction_delay/fsdiff;
    
 
     var yarg, y, Beta_num_1, Beta_num_2, Beta_num_3, Beta_num_4 , Beta_denom_1, Beta_denom_2, Beta_denom_3, Beta_denom_4, Beta, p_of_t;
@@ -111,8 +112,12 @@ return apex_point;
     var t, tau, tauo, yargtau;
     var source_to_apex_distance=magnitude(subtract(Qpos,apex));
  	var pi=Math.PI;
+	
+	var edge_2_Ppos=[Ppos[0], Ppos[1], 0];
+	var edge_2_Qpos=[Qpos[0], Qpos[1], 0];
+	
 	var theta=Math.atan(Ppos[1]/Ppos[0]);
-	var thetao=Math.atan(Qpos[1]/Qpos[0]);
+	var thetao=Math.atan(Qpos[1]/Qpos[0])+2*pi;
 	
 
 	
@@ -123,7 +128,7 @@ return apex_point;
 		
         
 		yarg=((co*co*t*t) - ((rr*rr) + (rs*rs) + (Z*Z))) / (2.0*rr*rs);
-		//yargtau=((co*co*(2.0*(least_time*tau + tau*tau)))/(2.0*r*ro))+1;
+		yargtau=((co*co*(2.0*(least_time*tau + tau*tau)))/(2.0*rr*rs))+1;
         
 		if(yarg  < 1){    
 			ImpulseResponse[n_diff]=0;
@@ -159,7 +164,12 @@ return apex_point;
 			 //if(without_approximation==0){  
 			 //		p_of_t=((-S*rho*co)/(4.0*pi*theta_w)) * Beta * (1.0/with_approximation) * Math.exp((-pi*y) / theta_w);
 			 //}else{
-             p_of_t=((-S*rho*co)/(4.0*pi*theta_w)) * Beta * (1.0*without_approximation) * Math.exp((-pi*y) / theta_w);
+				 
+			if (n_diff==0){
+				p_of_t=0;
+			}else{
+	             p_of_t=((-S*rho*co)/(4.0*pi*theta_w)) * Beta * (1.0/without_approximation) * Math.exp((-pi*y) / theta_w);
+			}
 			 //}
 			 
 //             //for plane waves 

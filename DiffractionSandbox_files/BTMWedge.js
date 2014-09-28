@@ -812,7 +812,7 @@ Tangle.classes.BTM_IR_Plot = {
 	   var N= canvasWidth;
 	 
 	   var rs=Math.sqrt(srcx*srcx+srcy*srcy+srcz*srcz);
-	   var rr=Math.sqrt(srcx*srcx+srcy*srcy+srcz*srcz);
+	   var rr=Math.sqrt(recx*recx+recy*recy+recz*recz);
 	   var Z=Math.sqrt((srcz-recz)*(srcz-recz));
 	   var co=343;
 	   
