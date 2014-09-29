@@ -862,13 +862,11 @@ Tangle.classes.BTM_IR_Plot = {
 			DecimatedIRvalues[ind]=	ScaledIRvalues[ind*Math.round(DecimationRatio)];
 	   }
 	   
-	  
-	   ctx.moveTo(0, canvasHeight-1);
-       ctx.lineTo(widthBeforeStep, canvasHeight-1);
+	   var y = DecimatedIRvalues[0];
+	   ctx.moveTo(0, canvasHeight-y);
     
-       for (var x = widthBeforeStep; x < canvasWidth; x++) {
-            var i = x - widthBeforeStep;
-            var y = DecimatedIRvalues[x];
+       for (var x =1; x < canvasWidth; x++) {
+             y = DecimatedIRvalues[x];
 			//var value = values[ceil(x)];
    		
             //var y = value * canvasHeight/2;

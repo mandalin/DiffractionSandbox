@@ -112,12 +112,21 @@ return apex_point;
     var t, tau, tauo, yargtau;
     var source_to_apex_distance=magnitude(subtract(Qpos,apex));
  	var pi=Math.PI;
+
+
+	var AlongFaceUnitVector=[-1,0,0];
 	
-	var edge_2_Ppos=[Ppos[0], Ppos[1], 0];
-	var edge_2_Qpos=[Qpos[0], Qpos[1], 0];
+ 	var edge_2_Ppos=[Ppos[0], Ppos[1], 0];
+	edge_2_Ppos=[edge_2_Ppos[0]/magnitude(edge_2_Ppos), edge_2_Ppos[1]/magnitude(edge_2_Ppos),0];
+	var theta_temp=dot(AlongFaceUnitVector,edge_2_Ppos);
+	var theta=Math.acos(theta_temp);
 	
-	var theta=Math.atan(Ppos[1]/Ppos[0]);
-	var thetao=Math.atan(Qpos[1]/Qpos[0])+2*pi;
+ 	var edge_2_Qpos=[Qpos[0], Qpos[1], 0];
+ 	edge_2_Qpos=[edge_2_Qpos[0]/magnitude(edge_2_Qpos), edge_2_Qpos[1]/magnitude(edge_2_Qpos),0];
+ 	var thetao_temp=dot(AlongFaceUnitVector,edge_2_Qpos);
+ 	var thetao=Math.acos(thetao_temp);
+	
+			
 	
 
 	
