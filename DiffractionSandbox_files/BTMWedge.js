@@ -809,7 +809,6 @@ Tangle.classes.BTM_IR_Plot = {
        // ctx.lineTo(widthBeforeStep,canvasHeight/2);
        // ctx.lineTo(canvasWidth,canvasHeight/2);
        // ctx.stroke();
-	   var N= canvasWidth;
 	 
 	   var rs=Math.sqrt(srcx*srcx+srcy*srcy+srcz*srcz);
 	   var rr=Math.sqrt(recx*recx+recy*recy+recz*recz);

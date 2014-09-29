@@ -73,9 +73,7 @@ return apex_point;
     var temp1, temp2;
 	var edge_time_a, edge_time_b;
 	
-	var ImpulseResponse=[];
-	ImpulseResponse.length=44100.0;
-	ImpulseResponse[0]=0;
+
     temp1=magnitude(subtract(corner_1, Ppos));
     temp2=magnitude(subtract(corner_1, Qpos));
     edge_distance_a = temp1 + temp2;
@@ -96,7 +94,7 @@ return apex_point;
     
     
   	//Create Empty IR
-    var Ndiff=Math.round(fsdiff);//this could be better...????!!!!
+    var Ndiff=Math.round(fsdiff/100);//this could be better...????!!!!
    	//Ndiff=100; //For Fig8 Medwin 1982
 	var ImpulseResponse=[];
 	ImpulseResponse.length=Ndiff;
@@ -109,7 +107,7 @@ return apex_point;
  	}
 
     
-    var t, tau, tauo, yargtau;
+    var t, tau, tauo, yargtau, theta, thetao;
     var source_to_apex_distance=magnitude(subtract(Qpos,apex));
  	var pi=Math.PI;
 
@@ -117,14 +115,18 @@ return apex_point;
 	var AlongFaceUnitVector=[-1,0,0];
 	
  	var edge_2_Ppos=[Ppos[0], Ppos[1], 0];
-	edge_2_Ppos=[edge_2_Ppos[0]/magnitude(edge_2_Ppos), edge_2_Ppos[1]/magnitude(edge_2_Ppos),0];
-	var theta_temp=dot(AlongFaceUnitVector,edge_2_Ppos);
-	var theta=Math.acos(theta_temp);
+	var edge_2_Ppos_unit=[edge_2_Ppos[0]/magnitude(edge_2_Ppos), edge_2_Ppos[1]/magnitude(edge_2_Ppos),0];
+	var theta_temp=dot(AlongFaceUnitVector,edge_2_Ppos_unit);
+	var theta_acute=Math.acos(theta_temp);
+	if(Ppos[1]<0){ theta=2*pi-theta_acute;}
+	else{theta=theta_acute;}
 	
  	var edge_2_Qpos=[Qpos[0], Qpos[1], 0];
- 	edge_2_Qpos=[edge_2_Qpos[0]/magnitude(edge_2_Qpos), edge_2_Qpos[1]/magnitude(edge_2_Qpos),0];
- 	var thetao_temp=dot(AlongFaceUnitVector,edge_2_Qpos);
- 	var thetao=Math.acos(thetao_temp);
+ 	var edge_2_Qpos_unit=[edge_2_Qpos[0]/magnitude(edge_2_Qpos), edge_2_Qpos[1]/magnitude(edge_2_Qpos),0];
+ 	var thetao_temp=dot(AlongFaceUnitVector,edge_2_Qpos_unit);
+ 	var thetao_acute=Math.acos(thetao_temp);
+	if(Qpos[1]<0){ thetao=2*pi-thetao_acute;}
+	else{thetao=thetao_acute;}
 	
 			
 	
@@ -200,11 +202,11 @@ return apex_point;
                         break;
                         
                     case 2:
-//                         if((t>edge_time_a) || (t>edge_time_b))
-//                         {   ImpulseResponse[n_diff]=p_of_t/2;}
-//                         else if((t>edge_time_a) && (t>edge_time_b))
-//                         {   ImpulseResponse[n_diff]=0;}
-//                         else
+//                          if((t>edge_time_a) || (t>edge_time_b))
+//                          {   ImpulseResponse[n_diff]=p_of_t/2;}
+//                          else if((t>edge_time_a) && (t>edge_time_b))
+//                          {   ImpulseResponse[n_diff]=0;}
+//                          else
                         {   ImpulseResponse[n_diff]=p_of_t;}
                         break;
                         
