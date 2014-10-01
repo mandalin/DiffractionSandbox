@@ -848,6 +848,7 @@ Tangle.classes.BTM_IR_Plot = {
 		   var rectified_max=Math.sqrt(IRmin*IRmin);
 	   }
 	   
+	   rectified_max=.00003;
 	   for(var ind=0; ind<IRvalues.length; ind++){
 		 	ScaledIRvalues[ind]=(IRvalues[ind]/rectified_max)*canvasHeight/2.0 + canvasHeight/2.0;
 	   }
