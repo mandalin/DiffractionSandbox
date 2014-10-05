@@ -22,8 +22,8 @@ window.addEvent('domready', function ()
             this.solid_angle = 0.0;  this.index = 1;
 			this.fs=44100.0;
 			this.Rmax=10.0;
-            this.srcx = -20.0;  this.srcy = 75; this.srcz = 0;
-			this.recx = -20.0;  this.recy = -50.0;  this.recz = 1.0;
+            this.srcx = -10.0;  this.srcy = 37.5; this.srcz = 0;
+			this.recx = -10.0;  this.recy = -25.0;  this.recz = 1.0;
 			this.edge_end1 = -2.0; 		this.edge_end2 = 2.0;
 			
 			this.recr = Math.sqrt(this.recx*this.recx+this.recy*this.recy);
@@ -823,10 +823,38 @@ Tangle.classes.BTM_IR_Plot = {
 	   var apex= find_apex(rs, rr, srcz, recz);
 	   var diff_case=which_case(apex, corner_1, corner_2);
 	   var least_time = calc_least_time(rr,rs,Z,co);
+	   var src_2_rec=[Ppos[0]-Qpos[0], Ppos[1]-Qpos[1], Ppos[2]-Qpos[2]];
+	   var image_src_pos= [Qpos[0],-Qpos[1],Qpos[2]];
+	   var isrc_2_rec=[Ppos[0]-image_src_pos[0], Ppos[1]-image_src_pos[1], Ppos[2]-image_src_pos[2]];
+	   var direct_arrival_time=magnitude(src_2_rec)/co;
+	   var reflected_arrival_time=magnitude(isrc_2_rec)/co;
+	   var delay_between_direct_and_diffracted=least_time-direct_arrival_time;
+	   var delay_between_direct_and_reflected=reflected_arrival_time-direct_arrival_time;
+	   
 	   var fsdiff=44100.0;
 	   var theta_w=360-solid_angle;
 	  
 	   var IRvalues = BTM_IR(diff_case, Ppos, Qpos, corner_1, corner_2, co, least_time, fsdiff,apex, rr, rs, Z, theta_w) ;
+	   //Input a delay, so the first sample indicates the direct arrival
+	   var dt=1.0/fsdiff;
+	   var sample_delay_between_direct_and_diffracted=Math.floor(delay_between_direct_and_diffracted/dt);
+	   var sample_delay_between_direct_and_reflected=Math.floor(delay_between_direct_and_reflected/dt);
+	   
+// 	   //
+// 	   for(var index=IRvalues.length; index>=sample_delay_between_direct_and_diffracted; index--){
+// 	   	   if ((index - sample_delay_between_direct_and_diffracted)<0){
+// 			   IRvalues[index]=0;
+// 		   }else{
+		   
+// 	   	   IRvalues[index]=IRvalues[index - sample_delay_between_direct_and_diffracted];
+// 		   }
+// 	   }
+	   
+// 	   for(var index=0; index<sample_delay_between_direct_and_diffracted; index++){
+// 	   	   IRvalues[index]=0;
+// 	   }
+	   
+	   
 	   var ScaledIRvalues=[];
 	   ScaledIRvalues.length=IRvalues.length;
 	   

@@ -202,11 +202,11 @@ return apex_point;
                         break;
                         
                     case 2:
-//                          if((t>edge_time_a) || (t>edge_time_b))
-//                          {   ImpulseResponse[n_diff]=p_of_t/2;}
-//                          else if((t>edge_time_a) && (t>edge_time_b))
-//                          {   ImpulseResponse[n_diff]=0;}
-//                          else
+                          if((t>edge_time_a) || (t>edge_time_b))
+                          {   ImpulseResponse[n_diff]=p_of_t/2;}
+                          else if((t>edge_time_a) && (t>edge_time_b))
+                          {   ImpulseResponse[n_diff]=0;}
+                         else
                         {   ImpulseResponse[n_diff]=p_of_t;}
                         break;
                         
